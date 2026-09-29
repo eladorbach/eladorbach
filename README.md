@@ -18,4 +18,9 @@ Code and technical notes from selected hardware projects, including **Raspberry 
 
 More documented builds, experiments, repairs, imaging systems, and technical notes:
 
-**[eladorbach.com](https://eladorbach.com)**
+**[eladorbach.com](https://www.eladorbach.com/)**
+
+## Elsewhere
+
+- [LinkedIn](https://www.linkedin.com/in/eladorbach/)
+- [YouTube](https://www.youtube.com/@eladorbach)
