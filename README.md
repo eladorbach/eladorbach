@@ -21,6 +21,7 @@ More documented builds, experiments, repairs, imaging systems, and technical not
 **[eladorbach.com](https://www.eladorbach.com/)**
 
 ## Elsewhere
-   elad orbach @
+You can also find me as **Elad Orbach** on:
+
 - [LinkedIn](https://www.linkedin.com/in/eladorbach/)
 - [YouTube](https://www.youtube.com/@eladorbach)
