@@ -5,6 +5,7 @@ Our engineering challenge is to produce smooth, accurate, inspectable indoor 3D 
 
 - [Eight-month 2026 research survey](RESEARCH_20260222_TO_20261022.md)
 - [Operator-ready execution and measurement roadmap](EXECUTION_ROADMAP_20261022.md)
+- [Next experiment: measured wall, floor and corner](NEXT_WALL_FLOOR_EXPERIMENT.md)
 - [Research goals / validity criteria](PROJECT_CHARTER_20261022.md)
 - [Side-by-side sensor evaluation and safe bring-up](SENSOR_BENCH_MATRIX_20261022.md)
 - [LinkedIn story, figures, measurement tables, and GitHub release gates](PUBLICATION_PLAN_20261022.md)
