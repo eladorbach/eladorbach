@@ -39,3 +39,8 @@ Milestone A3: precise IMX252 intrinsic/extrinsic alignment and clock tests.
 Milestone A4: controlled mobile multiview registration.
 Milestone A5: PolarSens reflection-aware confidence test.
 Milestone A6: realistic Gaussian/surfel/mesh rendering and public ablation plots.
+
+## Static-camera image-quality setting verified 2026-10-22
+- GainAuto=Off and Gain=0 dB, ExposureAuto=Continuous. Native monochrome camera acquisition changed from 30 Hz to **5 Hz**, which raised automatic maximum exposure from 33.333 ms to **200 ms**.
+- Real preview improved mean 27.05 → 85.39, while 13.5% of pixels still reach >=250 due to scene dynamic range; camera-to-LiDAR calibration NOT yet completed. Live M1600 undisturbed.
+- These longer exposures are suitable for the current **stationary** wall experiment; for moving scans the exposure/frame-rate tradeoff must be revisited. Full private settings log is kept only on AGX.
