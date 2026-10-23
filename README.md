@@ -27,6 +27,9 @@ Our engineering challenge is to produce smooth, accurate, inspectable indoor 3D 
 - [Quality/acceptance gate: fail unsafe/uncontrolled scenes](src/m1600_session_gate.py)
 - [Independent two-plane/corner analysis](src/corner_benchmark.py)
 - [Full-wall ROI template, not yet physically verified](examples/full_wall_roi_TEMPLATE.json)
+- [Offline candidate IMX252↔M1600 PnP extrinsic math](src/camera_lidar_extrinsics_offline.py), tested only on synthetic correspondences
+- [Empty physical-correspondence template](examples/camera_lidar_correspondence_TEMPLATE.json), intentionally no invented measurements
+- [Pure software-timestamp pairing diagnostics](src/host_time_pairing.py), not synchronized sensor exposure times
 
 These modules were checked on the AGX with real sensor packets and synthetic
 regression fixtures. Operator-selected physical wall/floor/corner targets,

@@ -34,6 +34,9 @@ def stats(entries):
     return result
 
 
+from host_time_pairing import host_stamp_pairing
+
+
 def main():
     p=argparse.ArgumentParser(description=__doc__)
     p.add_argument("--duration",type=float,default=5.)
@@ -65,6 +68,7 @@ def main():
         result={"status":"LIVE_ROS1_HOST_TIMING_PROBE_NOT_HARDWARE_SYNC",
                 "duration_target_seconds":a.duration,
                 "lidar":stats(lidar),"monochrome_preview":stats(camera),
+                "nearest_host_timestamp_pairing":host_stamp_pairing(lidar,camera),
                 "limitations":["No image pixels saved, no raw packet captures saved",
                     "ROS header timestamps are host/source software stamps, not sensor time.",
                     "Arrival intervals are affected by ROS/container scheduling and subscriber jitter.",

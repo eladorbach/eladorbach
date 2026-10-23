@@ -21,10 +21,11 @@ calibration correctness, reconstruction fidelity, and physical accuracy.
 | Full-wall *physical* measurement | BLOCKED (rig/scene) | Operator must aim at an approximately planar physical target and choose angular/range ROI. Absolute distance still requires independent reference. |
 | Two-face sharp-corner mathematics | PASS (logic + exploratory scene) | Fitted two independent candidate plane ROIs and their infinite-plane intersection. The ~81deg exploratory candidate is **not** certified as a real corner. |
 | Real physical corner-location error | BLOCKED (rig/target) | Requires known physical edge, deliberately selected faces, and independent edge-position reference. |
-| ROS and preview throughput | PASS (host-time telemetry only) | 5s observer: M1600 20.70 Hz, IMX252 downsampled preview 4.99 Hz; 16,274 mean points per LiDAR frame. Not hardware sync. |
+| ROS and preview throughput / host pairing | PASS (software-timing telemetry only) | 5s observer: M1600 20.70 Hz, IMX252 downsampled preview 4.99 Hz; 16,274 mean points per LiDAR frame. Nearest host stamps p50~50ms/p95~96ms in a 4s followup. NOT hardware synchronization. |
 | Mono IMX252 intrinsics mathematics | PASS (synthetic only) | OpenCV 4.5.4 calibration and held-out synthetic projections. Synthetic generated checkerboard 9×6, 54 corners detected. |
 | Real intrinsic calibration | BLOCKED (physical target + images) | Need user-verified checkerboard dimensions, 10–60 full-resolution diverse stills, fixed lens/focus. |
-| Camera→LiDAR extrinsics, drift, frame alignment | BLOCKED | Requires rigid mount, target jointly visible in both modalities, honest timestamps, physically recorded reference. |
+| Camera→LiDAR extrinsic mathematics | PASS (synthetic) | File-based 3D LiDAR metres → native IMX252 pixel correspondences, robust PnP and held-out reprojection fit. Real extrinsics still **BLOCKED** on rigid mount, target and measured matches. |
+| Real extrinsic drift / frame alignment | BLOCKED | Requires jointly observed physical target, stable rig, verified correspondences and honest timestamps. |
 | True 30 FPS mobile native acquisition & hardware synchronization | NOT YET ACCEPTED | Existing preview is intentionally 5 FPS static, 200 ms exposure at 0 dB gain. Mobile must benchmark native 30 FPS, dropped frames, shorter exposure and timing before moving. |
 | Multi-view global registration / mobile SLAM | NOT TESTABLE PHYSICALLY YET | No calibrated moving scans, IMU or valid extrinsics; do not claim any successful mobile map. |
 
@@ -40,7 +41,8 @@ personal room photos or third-party SDK source are in this publication tree.
 - `src/corner_benchmark.py`: two independently annotated face ROIs, two held-out plane tests and theoretical plane-line intersection. No observed physical edge accuracy yet.
 - `src/m1600_offline_qc.py`: 16-channel residual signatures, temporal range repeatability, independent holdout, and conservative depth-edge risk exploration; scanner output unchanged.
 - `src/imx252_calibration_offline.py`: OpenCV checkerboard intrinsic fit and held-out corner reprojection on **user-reviewed still images only**, not extrinsic.
-- `src/live_ros_rate_probe.py`: five-second live host timestamp and arrival-rate observation without image storage.
+- `src/live_ros_rate_probe.py` and `src/host_time_pairing.py`: bounded host-time arrival-rate and nearest stamp pairing observations without image storage. Never infer hardware synchronization.
+- `src/camera_lidar_extrinsics_offline.py`: **future** offline 3D LiDAR to native camera 2D matched-point robust PnP candidate solver with disjoint *spatial* train/holdout. Real physical matching, depth/clock truth and extrinsic verification remain blocked. `examples/camera_lidar_correspondence_TEMPLATE.json` has intentionally **zero invented measurements**.
 - `tests/test_*.py`: source-free synthetic mathematical and parser fixtures; honest about which checks used real sensor data.
 - `examples/full_wall_roi_TEMPLATE.json`: placeholder **NOT operator-verified** until the real wall and correct angular boundaries are established.
 
@@ -120,8 +122,20 @@ physical edge or an independently registered camera/reference.
   It measures intrinsics and held-out reprojection consistency and retains
   only hashes/calibration values; the original image privacy/deletion policy
   remains user-controlled.
+- Once real intrinsics and a rigid, stationary shared target are available,
+  manually create and *verify* 16+ matched 3D LiDAR XYZ metres/native image
+  pixel coordinates using the empty correspondence template. Only then run:
+
+    python3 src/camera_lidar_extrinsics_offline.py \
+      --intrinsics ../evidence/CAMERA_INTRINSICS_REAL.json \
+      --pairs ../evidence/MEASURED_LIDAR_CAMERA_PAIRS.json \
+      --output ../evidence/EXTRINSIC_CANDIDATE.json
+
+  This candidate PnP transform is **not** independent physical truth.
+  The current synthetic projection, solve, CLI serialization and held-out
+  pixel reprojection were rehearsed and must remain labeled synthetic.
 - Do not assert camera-LiDAR extrinsics, time alignment, synchronized
-  fusion or mobile results from this intrinsic-only calibration.
+  fusion or mobile results from intrinsic-only or synthetic calibration.
 - When motion begins, benchmark native 2048×1536/30 FPS acquisition,
   exposure <=33.3ms (often shorter), fixed 0dB gain where light allows,
   and dropped frames. The current static 5 FPS/200ms setting is **not**

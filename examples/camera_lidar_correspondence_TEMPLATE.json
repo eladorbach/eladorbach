@@ -1,0 +1,5 @@
+{
+  "source_class": "operator_reviewed_real",
+  "instructions": "Template only. After full-wall LiDAR tests and real intrinsic camera calibration, add at least 16 independently identified correspondences. Each row has exactly: lidar_xyz_m: [x,y,z] in the decoded M1600 frame, image_uv_px: [u,v] in the ORIGINAL full-resolution IMX252 image. Do not use the reduced preview, guess matched features or invent measured 3D points. Include noncollinear, varied-depth target correspondences where possible. Values MUST be measured and reviewed.",
+  "pairs": []
+}
