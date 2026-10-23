@@ -1,0 +1,10 @@
+{
+  "surface_label": "bare_wall",
+  "operator_has_verified_surface": false,
+  "azimuth_min_deg": 20.0,
+  "azimuth_max_deg": 100.0,
+  "elevation_min_deg": -14.0,
+  "elevation_max_deg": 18.0,
+  "range_min_m": 1.0,
+  "range_max_m": 5.0
+}

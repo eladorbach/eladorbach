@@ -43,6 +43,22 @@ class CalibrationMathTests(unittest.TestCase):
         self.assertLess(fitted["heldout_corner_p95_px"],1.0)
         self.assertEqual(len(fitted["camera_matrix"]),3)
 
+    def test_real_image_processing_on_synthetic_checkerboard(self):
+        # Exercising the image parser/corner detector, not real camera accuracy.
+        import tempfile
+        a=np.full((700,1000),192,dtype=np.uint8)
+        step=54
+        for y in range(7):
+            for x in range(10):
+                a[115+y*step:115+(y+1)*step,180+x*step:180+(x+1)*step]=((x+y)%2)*255
+        with tempfile.TemporaryDirectory(prefix="synthetic_only_cal_") as t:
+            p=pathlib.Path(t)/"synthetic_chessboard.png"
+            self.assertTrue(cv2.imwrite(str(p),a))
+            size,corners=cal.find_corners(p,9,6)
+            self.assertEqual(size,(1000,700))
+            self.assertIsNotNone(corners)
+            self.assertEqual(len(corners),54)
+
     def test_reject_uninspected_low_view_count(self):
         board=cal.board_points(9,6,20.)
         with self.assertRaises(ValueError):

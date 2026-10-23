@@ -14,9 +14,24 @@ Our engineering challenge is to produce smooth, accurate, inspectable indoor 3D 
 
 **Not built:** calibrated camera-LiDAR fusion, synchronized IMU odometry, mobile SLAM, optical polarization fusion, denser mapped surfaces, Gaussian splatting.
 
-**License/privacy:** This staging folder contains original project planning text only. Never automatically add full source folders, raw PCAPs, camera imagery, passwords, MAC identifiers, private Waymo SDKs or third-party code without confirming publication rights.
+**License/privacy:** This research branch contains original experiment documentation and self-authored offline testing scripts. No external license has yet been selected. Never add raw PCAPs, camera imagery, passwords, sensor-unique MAC identifiers, local sensor identity JSON, private Waymo SDKs or third-party code without publication-rights review.
 
-**Publication:** This branch is a documentation-only research staging area inside the existing eladorbach/eladorbach repository; it is intentionally separate from the deployed main branch. It does **not** announce a completed fusion system.
+**Publication:** This is an independent research and measurement-tools branch inside the existing eladorbach/eladorbach repository, intentionally separate from deployed main. It does **not** announce completed fusion, mobile reconstruction, verified wall accuracy, or camera-LiDAR calibration.
+
+## October 23 prepared **portable-rig test-day workflow**
+
+- [Step-by-step full-wall, corner, camera and synchronization test plan](TEST_DAY_READINESS_20261023.md)
+- [Safe source-verified live M1600 capture](src/m1600_capture_verified.py)
+- [One-command LiDAR multi-trial session runner](src/m1600_test_session.py)
+- [Predeclared full-wall ROI held-out benchmark](src/full_wall_benchmark.py)
+- [Quality/acceptance gate: fail unsafe/uncontrolled scenes](src/m1600_session_gate.py)
+- [Independent two-plane/corner analysis](src/corner_benchmark.py)
+- [Full-wall ROI template, not yet physically verified](examples/full_wall_roi_TEMPLATE.json)
+
+These modules were checked on the AGX with real sensor packets and synthetic
+regression fixtures. Operator-selected physical wall/floor/corner targets,
+extrinsics and absolute metrology remain pending the user's portable rig.
+All raw captures, unique LiDAR identifiers and numerical reports remain private.
 
 ## 2026-10-23 offline tools and actual evidence
 - [October 23 measured progress and limitations](PROGRESS_20261023.md)
