@@ -17,3 +17,17 @@ Our engineering challenge is to produce smooth, accurate, inspectable indoor 3D 
 **License/privacy:** This staging folder contains original project planning text only. Never automatically add full source folders, raw PCAPs, camera imagery, passwords, MAC identifiers, private Waymo SDKs or third-party code without confirming publication rights.
 
 **Publication:** This branch is a documentation-only research staging area inside the existing eladorbach/eladorbach repository; it is intentionally separate from the deployed main branch. It does **not** announce a completed fusion system.
+
+## 2026-10-23 offline tools and actual evidence
+- [October 23 measured progress and limitations](PROGRESS_20261023.md)
+- [M1600 offline quality tool](src/m1600_offline_qc.py): raw-PCAP decoder, 16-channel consistency, temporal held-out comparison and a depth-edge **risk flag**. Does not modify the live cloud.
+- [IMX252 camera intrinsic calibration](src/imx252_calibration_offline.py): future, user-supplied checkerboard images only; no auto-capture, no camera-LiDAR extrinsics yet.
+- [Live ROS subscriber quality probe](src/live_ros_rate_probe.py): reads ROS message metadata, does not save image pixels.
+- [Regression tests](tests/): exclusively labeled synthetic fixtures; nothing from a private scene.
+
+Reproduce using an authorized genuine M1600 PCAP on the AGX:
+```bash
+OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -v -s tests
+OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 PYTHONDONTWRITEBYTECODE=1 python3 src/m1600_offline_qc.py --pcap /path/to/your/M1600.pcap --bin-centidegrees 10
+```
+**Caveat:** Reduced cross-frame range disagreement is NOT verified physical wall flatness. No images, raw packets, private room scans, or vendor SDKs are part of this publication branch.
